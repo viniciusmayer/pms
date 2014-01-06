@@ -120,7 +120,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     # plugins
-    'django_jenkins',
+    #'django_jenkins',
     'south',
     # aplicacoes
     'projeto',
