@@ -1,4 +1,4 @@
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -121,7 +121,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     # plugins
     #'django_jenkins',
-    'south',
+    #'south',
     # aplicacoes
     'projeto',
 )

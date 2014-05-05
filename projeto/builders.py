@@ -42,7 +42,6 @@ class AreaBuilder():
     @staticmethod
     def create(nome):
         return Area.objects.create(nome=nome,
-                                   responsavel=PessoaBuilder.create(UUIDGenerator.uuid()),
                                    usuario=UsuarioBuilder.sessionUser(),)
 
 class UsuarioBuilder():
@@ -75,7 +74,6 @@ class PessoaBuilder():
     @staticmethod
     def create(username, first_name='', last_name='', email=''):
         return Pessoa.objects.create(user=UsuarioBuilder.create(username, first_name, last_name, email),
-                                     area=AreaBuilder.create(UUIDGenerator.uuid()),
                                      usuario=UsuarioBuilder.sessionUser(),)
 
 class IteracaoPessoaBuilder():
