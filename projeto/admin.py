@@ -22,7 +22,7 @@ class StatusAdmin(admin.ModelAdmin):
         qs = super(StatusAdmin, self).queryset(request)
         return qs.filter(excluido=False)
     
-admin.site.register(Status, StatusAdmin)
+#admin.site.register(Status, StatusAdmin)
 
 class ArtefatoAdmin(admin.ModelAdmin):
     form = ArtefatoForm

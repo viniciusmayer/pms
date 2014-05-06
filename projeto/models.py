@@ -128,7 +128,7 @@ class Projeto(CommonInfo):
             for acom_iter in acom_iters:
                 realizado = acom_iter.realizado
                 if realizado is not None:
-                    if realizado > 0:
+                    if realizado > 0: #FIXME SMELL
                         if total_pontos is None:
                             total_pontos = 0
                         total_pontos += realizado
@@ -214,7 +214,6 @@ class Iteracao(CommonInfo):
     horas_reais.short_description = 'Horas reais'
     
     # TODO refatorar
-    # FIXME testar
     def horas_fatos(self):
         hora_fato = timedelta()
         fatos = self.fato_set.all()
@@ -233,7 +232,6 @@ class Iteracao(CommonInfo):
     horas_timedelta.short_description = 'Horas'
     
     # TODO refatorar
-    # FIXME testar?
     def horas(self):
         dias = (self.data_fim - self.data_inicio).days
         dias -= self.numero_dias_nao_uteis
@@ -344,7 +342,7 @@ class Fato(CommonInfo):
     total_horas.short_description = 'Total Horas'
 
     # TODO refatorar
-    # FIXME testar?
+    # FIXME testar? sim!
     def tempo_horas(self):
         partes = str(self.tempo).split(':')
         horas = int(partes[0])

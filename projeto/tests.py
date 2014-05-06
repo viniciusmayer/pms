@@ -119,6 +119,30 @@ class IteracaoTestCase_ConfiguracaoIgualA0(unittest.TestCase):
         valor = 0
         self.assertEqual(horas, valor, 'O numero de horas nao eh %s: %s' % (valor, horas))
         
+    def test_dias_0_nao_uteis_0_pessoas_0_fatos_0(self):
+        iteracao = IteracaoBuilder.create('test_d_0_n_util_0_p_0_f_0_hr_0')
+        horas_fatos = iteracao.horas_fatos()
+        valor = timedelta(hours=0, minutes=0, seconds=0)
+        self.assertEqual(horas_fatos, valor, 'O numero de horas relativas a fatos nao eh %s: %s' % (valor, horas_fatos))
+
+    def test_dias_3_nao_uteis_1_pessoas_3_fatos_0(self):
+        iteracao = IteracaoBuilder.create('test_d_3_n_util_1_p_3_f_0_hr_0', 3, 1, 3)
+        horas = iteracao.horas_fatos()
+        valor = timedelta(hours=0, minutes=0, seconds=0)
+        self.assertEqual(horas, valor, 'O numero de horas relativas a fatos nao eh %s: %s' % (valor, horas))
+
+    def test_dias_3_nao_uteis_1_pessoas_3_fatos_1(self):
+        iteracao = IteracaoBuilder.create('test_d_3_n_util_1_p_3_f_1_hr_0', 3, 1, 3, 1, 1, 1)
+        horas = iteracao.horas_fatos()
+        valor = timedelta(hours=3, minutes=0, seconds=0)
+        self.assertEqual(horas, valor, 'O numero de horas relativas a fatos nao eh %s: %s' % (valor, horas))
+
+    def test_dias_3_nao_uteis_1_pessoas_3_fatos_3(self):
+        iteracao = IteracaoBuilder.create('test_d_3_n_util_1_p_3_f_1_hr_0', 3, 1, 3, 3, 2, 2)
+        horas = iteracao.horas_fatos()
+        valor = timedelta(hours=36, minutes=0, seconds=0)
+        self.assertEqual(horas, valor, 'O numero de horas relativas a fatos nao eh %s: %s' % (valor, horas))
+        
 class FatoTestCase(unittest.TestCase):
     def setUp(self):
         pass

@@ -24,18 +24,22 @@ CATEGORIA = (
 '''
 class FatoBuilder():
     @staticmethod
-    def create(nome, ocorrencias, tempo, numeroPessoas, categoria):
+    def create(nome, ocorrencias, tempo, numeroPessoas, categoria, iteracao=None):
+        createIteracao = iteracao
+        if createIteracao is None:
+            createIteracao = IteracaoBuilder.create(UUIDGenerator.uuid())
+            
         fato = Fato.objects.create(nome=nome,
                                    tempo=tempo,
                                    ocorrencias=ocorrencias,
-                                   iteracao=IteracaoBuilder.create(UUIDGenerator.uuid()),
+                                   iteracao=createIteracao,
                                    tipo=TipoBuilder.create(UUIDGenerator.uuid(), categoria),
                                    usuario=UsuarioBuilder.sessionUser(),)
         
         for i in range(numeroPessoas):
             pessoa = PessoaBuilder.create(UUIDGenerator.uuid())
             FatoPessoaBuilder.create(fato, pessoa)
-        
+
         return fato
 
 class AreaBuilder():
@@ -94,7 +98,7 @@ class ConfiguracaoBuilder():
 
 class IteracaoBuilder():
     @staticmethod
-    def create(nome, numeroDeDias=0, numeroDeDiasNaoUteis=0, numeroPessoas=0):
+    def create(nome, numeroDeDias=0, numeroDeDiasNaoUteis=0, numeroPessoas=0, numeroFatos=0, numeroDeOcorrenciasPorFato=1, numeroHorasPorFato=0):
         data_inicio = datetime.now()
         data_fim = data_inicio + timedelta(days=numeroDeDias)
         iteracao = Iteracao.objects.create(nome=nome,
@@ -107,6 +111,11 @@ class IteracaoBuilder():
         for i in range(numeroPessoas):
             pessoa = PessoaBuilder.create(UUIDGenerator.uuid())
             IteracaoPessoaBuilder.create(iteracao, pessoa)
+            
+        for i in range(numeroFatos):
+            #FIXME esse 'FA' faz sentido aqui?
+            tempo = timedelta(hours=numeroHorasPorFato)
+            FatoBuilder.create(UUIDGenerator.uuid(), numeroDeOcorrenciasPorFato, tempo, numeroPessoas, 'FA', iteracao)
             
         return iteracao
     
