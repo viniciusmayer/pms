@@ -1,8 +1,3 @@
-from datetime import timedelta
-from projeto.builders import ConfiguracaoBuilder, IteracaoBuilder, FatoBuilder, \
-    PessoaBuilder
-import unittest
-
 '''
 config: 7 | dia: 1 | naoUtil: 0 | pessoa: 1 | horas: 7
 config: 7 | dia: 1 | naoUtil: 0 | pessoa: 3 | horas: 21
@@ -17,6 +12,14 @@ config: 7 | dia: 1 | naoUtil: 0 | pessoa: 0 | horas: 0
 config: 7 | dia: 3 | naoUtil: 1 | pessoa: 0 | horas: 0
 config: 7 | dia: 1 | naoUtil: 3 | pessoa: 1 | horas: 0
 '''
+
+from datetime import timedelta
+import unittest
+
+from projeto.builders import ConfiguracaoBuilder, IteracaoBuilder, FatoBuilder, \
+    PessoaBuilder
+
+
 class IteracaoTestCase_ConfiguracaoIgualA7(unittest.TestCase):
     def setUp(self):
         ConfiguracaoBuilder.create_HorasPorDia(7)

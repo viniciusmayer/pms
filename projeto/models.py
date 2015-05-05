@@ -1,8 +1,10 @@
-from common.models import CommonInfo
 from datetime import datetime, timedelta
 from decimal import Decimal
 from django.contrib.auth.models import User
 from django.db import models
+
+from common.models import CommonInfo
+
 
 class Status(CommonInfo):
     predecessora = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL, limit_choices_to={'ativo':True, 'excluido':False})
@@ -123,8 +125,8 @@ class Projeto(CommonInfo):
     def total_pontos(self):
         total_pontos = None
         iters = self.iteracao_set.all()
-        for iter in iters:
-            acom_iters = iter.acompanhamentoiteracao_set.all()
+        for _iter in iters:
+            acom_iters = _iter.acompanhamentoiteracao_set.all()
             for acom_iter in acom_iters:
                 realizado = acom_iter.realizado
                 if realizado is not None:
@@ -141,9 +143,9 @@ class Projeto(CommonInfo):
         zero = timedelta()
         hora_acum = timedelta()
         iters = self.iteracao_set.all()
-        for iter in iters:
+        for _iter in iters:
             # horas reais da iteracao mesmo?
-            hora_pont = iter.horas_reais()
+            hora_pont = _iter.horas_reais()
             if hora_pont is not None:
                 if hora_pont > zero:
                     hora_acum += hora_pont
@@ -157,8 +159,8 @@ class Projeto(CommonInfo):
         hora_acum = timedelta()
         nume_iter = 0
         iters = self.iteracao_set.all()
-        for iter in iters:
-            acom_iters = iter.acompanhamentoiteracao_set.all()
+        for _iter in iters:
+            acom_iters = _iter.acompanhamentoiteracao_set.all()
             for acom_iter in acom_iters:
                 hora_pont = acom_iter.horas_por_ponto()
                 if hora_pont is not None:
@@ -177,8 +179,8 @@ class Projeto(CommonInfo):
         acum_tax = 0.0
         nume_acom_iter = 0;
         iters = self.iteracao_set.all()
-        for iter in iters:
-            acom_iters = iter.acompanhamentoiteracao_set.all()
+        for _iter in iters:
+            acom_iters = _iter.acompanhamentoiteracao_set.all()
             for acom_iter in acom_iters:
                 real = acom_iter.realizado
                 if real is not None:

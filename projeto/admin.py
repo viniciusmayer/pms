@@ -1,10 +1,12 @@
 from django.contrib import admin
-from projeto.forms import AreaForm, ArtefatoForm, TipoForm, PessoaForm, \
-    StatusForm, EquipeForm, FatoForm, IteracaoForm, AcompanhamentoIteracaoForm, \
-    ItemForm, ProjetoForm, ConfiguracaoForm
-from projeto.models import Area, Pessoa, Tipo, Status, Configuracao, Fato, \
-    Iteracao, EquipePessoa, IteracaoPessoa, FatoPessoa, AcompanhamentoIteracao, \
-    Projeto, AreaPessoa
+
+from projeto.forms import StatusForm, ArtefatoForm, TipoForm, AreaForm, \
+    PessoaForm, ConfiguracaoForm, IteracaoForm, AcompanhamentoIteracaoForm, \
+    EquipeForm, FatoForm, ItemForm, ProjetoForm
+from projeto.models import Tipo, Area, AreaPessoa, Pessoa, Configuracao, \
+    IteracaoPessoa, Iteracao, AcompanhamentoIteracao, EquipePessoa, FatoPessoa, \
+    Fato, Projeto
+
 
 class StatusAdmin(admin.ModelAdmin):
     form = StatusForm

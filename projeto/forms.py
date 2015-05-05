@@ -1,6 +1,8 @@
 from django import forms
-from projeto.models import Area, Artefato, Pessoa, Tipo, Status, Configuracao, \
-    Equipe, Fato, Iteracao, AcompanhamentoIteracao, Item, Projeto
+
+from projeto.models import Status, Artefato, Tipo, Area, Pessoa, Configuracao, \
+    Iteracao, AcompanhamentoIteracao, Equipe, Fato, Item, Projeto
+
 
 class StatusForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -9,6 +11,7 @@ class StatusForm(forms.ModelForm):
         
     class Meta:
         model = Status
+        exclude = []
 
 class ArtefatoForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -17,6 +20,7 @@ class ArtefatoForm(forms.ModelForm):
         
     class Meta:
         model = Artefato
+        exclude = []
 
 class TipoForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -25,6 +29,7 @@ class TipoForm(forms.ModelForm):
         
     class Meta:
         model = Tipo
+        exclude = []
 
 class AreaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -33,6 +38,7 @@ class AreaForm(forms.ModelForm):
         
     class Meta:
         model = Area
+        exclude = []
 
 class PessoaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -41,6 +47,7 @@ class PessoaForm(forms.ModelForm):
         
     class Meta:
         model = Pessoa
+        exclude = []
 
 class ConfiguracaoForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -49,6 +56,7 @@ class ConfiguracaoForm(forms.ModelForm):
         
     class Meta:
         model = Configuracao
+        exclude = []
 
 class IteracaoForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -57,6 +65,7 @@ class IteracaoForm(forms.ModelForm):
         
     class Meta:
         model = Iteracao
+        exclude = []
         
 class AcompanhamentoIteracaoForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -65,6 +74,7 @@ class AcompanhamentoIteracaoForm(forms.ModelForm):
         
     class Meta:
         model = AcompanhamentoIteracao
+        exclude = []
         
 class EquipeForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -73,6 +83,7 @@ class EquipeForm(forms.ModelForm):
 
     class Meta:
         model = Equipe
+        exclude = []
     
 class FatoForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -81,6 +92,7 @@ class FatoForm(forms.ModelForm):
         
     class Meta:
         model = Fato
+        exclude = []
 
 class ItemForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -89,6 +101,7 @@ class ItemForm(forms.ModelForm):
         
     class Meta:
         model = Item
+        exclude = []
 
 class ProjetoForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -97,3 +110,4 @@ class ProjetoForm(forms.ModelForm):
         
     class Meta:
         model = Projeto
+        exclude = []

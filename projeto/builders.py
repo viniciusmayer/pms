@@ -1,8 +1,10 @@
 from datetime import datetime, timedelta
 from django.contrib.auth.models import User
+import uuid
+
 from projeto.models import IteracaoPessoa, Area, Pessoa, Projeto, Configuracao, \
     Iteracao, Fato, FatoPessoa, Tipo
-import uuid
+
 
 class TipoBuilder():
     @staticmethod
