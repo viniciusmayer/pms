@@ -1,0 +1,428 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+from django.db import models, migrations
+import datetime
+from django.conf import settings
+import django.db.models.deletion
+
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+    ]
+
+    operations = [
+        migrations.CreateModel(
+            name='AcompanhamentoIteracao',
+            fields=[
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('ativo', models.BooleanField(default=True)),
+                ('excluido', models.BooleanField(default=False)),
+                ('data_hora_criacao', models.DateTimeField(auto_now_add=True)),
+                ('data_hora_atualizacao', models.DateTimeField(auto_now=True)),
+                ('observacoes', models.CharField(null=True, max_length=255, blank=True)),
+                ('objetivo', models.DecimalField(decimal_places=2, max_digits=5)),
+                ('real', models.DecimalField(null=True, blank=True, decimal_places=2, max_digits=5)),
+                ('realizado', models.DecimalField(null=True, blank=True, decimal_places=2, max_digits=5)),
+            ],
+            options={
+                'ordering': ['-ativo', 'iteracao__nome', 'mc__user__username', 'observacoes', '-data_hora_atualizacao', '-data_hora_criacao'],
+                'verbose_name_plural': 'acompanhamento iteracoes',
+            },
+        ),
+        migrations.CreateModel(
+            name='Andamento',
+            fields=[
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('nome', models.CharField(max_length=255)),
+                ('ativo', models.BooleanField(default=True)),
+                ('excluido', models.BooleanField(default=False)),
+                ('data_hora_criacao', models.DateTimeField(auto_now_add=True)),
+                ('data_hora_atualizacao', models.DateTimeField(auto_now=True)),
+                ('observacoes', models.CharField(null=True, max_length=255, blank=True)),
+                ('data_hora_inicio', models.DateTimeField(auto_now_add=True)),
+                ('data_hora_fim', models.DateTimeField()),
+            ],
+            options={
+                'ordering': ['-ativo', 'nome', 'observacoes', '-data_hora_atualizacao', '-data_hora_criacao'],
+                'abstract': False,
+            },
+        ),
+        migrations.CreateModel(
+            name='Area',
+            fields=[
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('nome', models.CharField(max_length=255)),
+                ('ativo', models.BooleanField(default=True)),
+                ('excluido', models.BooleanField(default=False)),
+                ('data_hora_criacao', models.DateTimeField(auto_now_add=True)),
+                ('data_hora_atualizacao', models.DateTimeField(auto_now=True)),
+                ('observacoes', models.CharField(null=True, max_length=255, blank=True)),
+                ('parent', models.ForeignKey(null=True, blank=True, on_delete=django.db.models.deletion.SET_NULL, to='projeto.Area')),
+                ('usuario', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'ordering': ['-ativo', 'nome', 'observacoes', '-data_hora_atualizacao', '-data_hora_criacao'],
+                'abstract': False,
+            },
+        ),
+        migrations.CreateModel(
+            name='AreaPessoa',
+            fields=[
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('area', models.ForeignKey(to='projeto.Area')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Artefato',
+            fields=[
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('nome', models.CharField(max_length=255)),
+                ('ativo', models.BooleanField(default=True)),
+                ('excluido', models.BooleanField(default=False)),
+                ('data_hora_criacao', models.DateTimeField(auto_now_add=True)),
+                ('data_hora_atualizacao', models.DateTimeField(auto_now=True)),
+                ('observacoes', models.CharField(null=True, max_length=255, blank=True)),
+                ('usuario', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'ordering': ['-ativo', 'nome', 'observacoes', '-data_hora_atualizacao', '-data_hora_criacao'],
+                'abstract': False,
+            },
+        ),
+        migrations.CreateModel(
+            name='Configuracao',
+            fields=[
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('nome', models.CharField(max_length=255)),
+                ('ativo', models.BooleanField(default=True)),
+                ('excluido', models.BooleanField(default=False)),
+                ('data_hora_criacao', models.DateTimeField(auto_now_add=True)),
+                ('data_hora_atualizacao', models.DateTimeField(auto_now=True)),
+                ('observacoes', models.CharField(null=True, max_length=255, blank=True)),
+                ('chave', models.CharField(max_length=255)),
+                ('valor', models.CharField(max_length=255)),
+                ('usuario', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'verbose_name_plural': 'configuracoes',
+            },
+        ),
+        migrations.CreateModel(
+            name='Equipe',
+            fields=[
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('nome', models.CharField(max_length=255)),
+                ('ativo', models.BooleanField(default=True)),
+                ('excluido', models.BooleanField(default=False)),
+                ('data_hora_criacao', models.DateTimeField(auto_now_add=True)),
+                ('data_hora_atualizacao', models.DateTimeField(auto_now=True)),
+                ('observacoes', models.CharField(null=True, max_length=255, blank=True)),
+            ],
+            options={
+                'ordering': ['-ativo', 'nome', 'observacoes', '-data_hora_atualizacao', '-data_hora_criacao'],
+                'abstract': False,
+            },
+        ),
+        migrations.CreateModel(
+            name='EquipePessoa',
+            fields=[
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('data_hora_inicio', models.DateTimeField(auto_now_add=True)),
+                ('data_hora_fim', models.DateTimeField(null=True, blank=True, editable=False)),
+                ('equipe', models.ForeignKey(to='projeto.Equipe')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Fato',
+            fields=[
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('nome', models.CharField(max_length=255)),
+                ('ativo', models.BooleanField(default=True)),
+                ('excluido', models.BooleanField(default=False)),
+                ('data_hora_criacao', models.DateTimeField(auto_now_add=True)),
+                ('data_hora_atualizacao', models.DateTimeField(auto_now=True)),
+                ('observacoes', models.CharField(null=True, max_length=255, blank=True)),
+                ('data', models.DateField(default=datetime.datetime(2015, 5, 4, 11, 53, 0, 957008))),
+                ('ocorrencias', models.PositiveIntegerField(default='1')),
+                ('tempo', models.CharField(max_length=10, default='1:00:00', help_text='hhh:mm:ss')),
+            ],
+            options={
+                'ordering': ['-ativo', 'nome', 'observacoes', '-data_hora_atualizacao', '-data_hora_criacao'],
+                'abstract': False,
+            },
+        ),
+        migrations.CreateModel(
+            name='FatoPessoa',
+            fields=[
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('data_hora_inicio', models.DateTimeField(auto_now_add=True)),
+                ('data_hora_fim', models.DateTimeField(null=True, blank=True, editable=False)),
+                ('fato', models.ForeignKey(to='projeto.Fato')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Item',
+            fields=[
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('nome', models.CharField(max_length=255)),
+                ('ativo', models.BooleanField(default=True)),
+                ('excluido', models.BooleanField(default=False)),
+                ('data_hora_criacao', models.DateTimeField(auto_now_add=True)),
+                ('data_hora_atualizacao', models.DateTimeField(auto_now=True)),
+                ('observacoes', models.CharField(null=True, max_length=255, blank=True)),
+            ],
+            options={
+                'verbose_name_plural': 'itens',
+            },
+        ),
+        migrations.CreateModel(
+            name='Iteracao',
+            fields=[
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('nome', models.CharField(max_length=255)),
+                ('ativo', models.BooleanField(default=True)),
+                ('excluido', models.BooleanField(default=False)),
+                ('data_hora_criacao', models.DateTimeField(auto_now_add=True)),
+                ('data_hora_atualizacao', models.DateTimeField(auto_now=True)),
+                ('observacoes', models.CharField(null=True, max_length=255, blank=True)),
+                ('data_inicio', models.DateField(default=datetime.datetime(2015, 5, 4, 11, 53, 0, 953429))),
+                ('data_fim', models.DateField(default=datetime.datetime(2015, 5, 16, 11, 53, 0, 953464))),
+                ('numero_dias_nao_uteis', models.PositiveIntegerField(default=5, help_text='primeira segunda-feira, ultima sexta-feira, sabado, domingo, terca-feira pela manha e quinta-feira pela tarde')),
+            ],
+            options={
+                'verbose_name_plural': 'Iteracoes',
+            },
+        ),
+        migrations.CreateModel(
+            name='IteracaoPessoa',
+            fields=[
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('data_hora_inicio', models.DateTimeField(auto_now_add=True)),
+                ('data_hora_fim', models.DateTimeField(null=True, blank=True, editable=False)),
+                ('iteracao', models.ForeignKey(to='projeto.Iteracao')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Pessoa',
+            fields=[
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('excluido', models.BooleanField(default=False)),
+                ('data_hora_atualizacao', models.DateTimeField(auto_now=True)),
+                ('observacoes', models.CharField(null=True, max_length=255, blank=True)),
+                ('area', models.ManyToManyField(to='projeto.Area', through='projeto.AreaPessoa')),
+                ('user', models.ForeignKey(unique=True, related_name='profile', to=settings.AUTH_USER_MODEL)),
+                ('usuario', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'ordering': ['-user__is_active', 'user__username', 'user__first_name', 'user__last_name', 'user__email', 'observacoes', '-data_hora_atualizacao', '-user__date_joined'],
+            },
+        ),
+        migrations.CreateModel(
+            name='Projeto',
+            fields=[
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('nome', models.CharField(max_length=255)),
+                ('ativo', models.BooleanField(default=True)),
+                ('excluido', models.BooleanField(default=False)),
+                ('data_hora_criacao', models.DateTimeField(auto_now_add=True)),
+                ('data_hora_atualizacao', models.DateTimeField(auto_now=True)),
+                ('observacoes', models.CharField(null=True, max_length=255, blank=True)),
+                ('demandada', models.ForeignKey(related_name='area_demandada_projeto', to='projeto.Area')),
+                ('demandante', models.ForeignKey(related_name='area_demandante_projeto', to='projeto.Area')),
+                ('responsavel', models.ForeignKey(to='projeto.Pessoa')),
+                ('usuario', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'ordering': ['-ativo', 'nome', 'observacoes', '-data_hora_atualizacao', '-data_hora_criacao'],
+                'abstract': False,
+            },
+        ),
+        migrations.CreateModel(
+            name='Status',
+            fields=[
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('nome', models.CharField(max_length=255)),
+                ('ativo', models.BooleanField(default=True)),
+                ('excluido', models.BooleanField(default=False)),
+                ('data_hora_criacao', models.DateTimeField(auto_now_add=True)),
+                ('data_hora_atualizacao', models.DateTimeField(auto_now=True)),
+                ('observacoes', models.CharField(null=True, max_length=255, blank=True)),
+                ('predecessora', models.ForeignKey(null=True, blank=True, on_delete=django.db.models.deletion.SET_NULL, to='projeto.Status')),
+                ('usuario', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'verbose_name_plural': 'status',
+            },
+        ),
+        migrations.CreateModel(
+            name='Tipo',
+            fields=[
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('nome', models.CharField(max_length=255)),
+                ('ativo', models.BooleanField(default=True)),
+                ('excluido', models.BooleanField(default=False)),
+                ('data_hora_criacao', models.DateTimeField(auto_now_add=True)),
+                ('data_hora_atualizacao', models.DateTimeField(auto_now=True)),
+                ('observacoes', models.CharField(null=True, max_length=255, blank=True)),
+                ('categoria', models.CharField(max_length=2, choices=[('IT', 'Item'), ('FA', 'Fato'), ('RE', 'Relacao')])),
+                ('usuario', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'ordering': ['-ativo', 'nome', 'observacoes', '-data_hora_atualizacao', '-data_hora_criacao'],
+                'abstract': False,
+            },
+        ),
+        migrations.AddField(
+            model_name='iteracaopessoa',
+            name='pessoa',
+            field=models.ForeignKey(to='projeto.Pessoa'),
+        ),
+        migrations.AddField(
+            model_name='iteracao',
+            name='pessoas',
+            field=models.ManyToManyField(to='projeto.Pessoa', through='projeto.IteracaoPessoa'),
+        ),
+        migrations.AddField(
+            model_name='iteracao',
+            name='predecessora',
+            field=models.ForeignKey(null=True, blank=True, on_delete=django.db.models.deletion.SET_NULL, to='projeto.Iteracao'),
+        ),
+        migrations.AddField(
+            model_name='iteracao',
+            name='projeto',
+            field=models.ForeignKey(to='projeto.Projeto'),
+        ),
+        migrations.AddField(
+            model_name='iteracao',
+            name='usuario',
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
+        ),
+        migrations.AddField(
+            model_name='item',
+            name='andamentos',
+            field=models.ManyToManyField(to='projeto.Status', through='projeto.Andamento'),
+        ),
+        migrations.AddField(
+            model_name='item',
+            name='artefato',
+            field=models.ForeignKey(to='projeto.Artefato'),
+        ),
+        migrations.AddField(
+            model_name='item',
+            name='demandada',
+            field=models.ForeignKey(related_name='area_demandada_item', to='projeto.Area'),
+        ),
+        migrations.AddField(
+            model_name='item',
+            name='demandante',
+            field=models.ForeignKey(related_name='area_demandante_item', to='projeto.Area'),
+        ),
+        migrations.AddField(
+            model_name='item',
+            name='iteracao',
+            field=models.ForeignKey(null=True, blank=True, on_delete=django.db.models.deletion.SET_NULL, to='projeto.Iteracao'),
+        ),
+        migrations.AddField(
+            model_name='item',
+            name='parent',
+            field=models.ForeignKey(null=True, blank=True, on_delete=django.db.models.deletion.SET_NULL, to='projeto.Item'),
+        ),
+        migrations.AddField(
+            model_name='item',
+            name='responsavel',
+            field=models.ForeignKey(to='projeto.Pessoa'),
+        ),
+        migrations.AddField(
+            model_name='item',
+            name='tipo',
+            field=models.ForeignKey(to='projeto.Tipo'),
+        ),
+        migrations.AddField(
+            model_name='item',
+            name='usuario',
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
+        ),
+        migrations.AddField(
+            model_name='fatopessoa',
+            name='pessoa',
+            field=models.ForeignKey(to='projeto.Pessoa'),
+        ),
+        migrations.AddField(
+            model_name='fato',
+            name='iteracao',
+            field=models.ForeignKey(to='projeto.Iteracao'),
+        ),
+        migrations.AddField(
+            model_name='fato',
+            name='pessoas',
+            field=models.ManyToManyField(to='projeto.Pessoa', through='projeto.FatoPessoa'),
+        ),
+        migrations.AddField(
+            model_name='fato',
+            name='tipo',
+            field=models.ForeignKey(to='projeto.Tipo'),
+        ),
+        migrations.AddField(
+            model_name='fato',
+            name='usuario',
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
+        ),
+        migrations.AddField(
+            model_name='equipepessoa',
+            name='pessoa',
+            field=models.ForeignKey(to='projeto.Pessoa'),
+        ),
+        migrations.AddField(
+            model_name='equipe',
+            name='pessoas',
+            field=models.ManyToManyField(to='projeto.Pessoa', through='projeto.EquipePessoa'),
+        ),
+        migrations.AddField(
+            model_name='equipe',
+            name='usuario',
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
+        ),
+        migrations.AddField(
+            model_name='areapessoa',
+            name='pessoa',
+            field=models.ForeignKey(to='projeto.Pessoa'),
+        ),
+        migrations.AddField(
+            model_name='areapessoa',
+            name='tipo',
+            field=models.ForeignKey(to='projeto.Tipo'),
+        ),
+        migrations.AddField(
+            model_name='andamento',
+            name='item',
+            field=models.ForeignKey(to='projeto.Item'),
+        ),
+        migrations.AddField(
+            model_name='andamento',
+            name='status',
+            field=models.ForeignKey(to='projeto.Status'),
+        ),
+        migrations.AddField(
+            model_name='andamento',
+            name='usuario',
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
+        ),
+        migrations.AddField(
+            model_name='acompanhamentoiteracao',
+            name='iteracao',
+            field=models.ForeignKey(to='projeto.Iteracao'),
+        ),
+        migrations.AddField(
+            model_name='acompanhamentoiteracao',
+            name='mc',
+            field=models.ForeignKey(to='projeto.Pessoa'),
+        ),
+        migrations.AddField(
+            model_name='acompanhamentoiteracao',
+            name='usuario',
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
+        ),
+    ]
